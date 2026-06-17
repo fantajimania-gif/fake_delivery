@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>배달 참기 (Delivery Detox MVP)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Phone Frame Simulator for Desktop, collapses to fullscreen on mobile -->
+  <div class="device-wrapper">
+    
+    <!-- iOS Simulated Status Bar -->
+    <div class="device-header-bar">
+      <div class="time" id="status-bar-time">09:41</div>
+      <div class="right-icons">
+        <!-- Signal SVG -->
+        <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="8" width="2.5" height="4" rx="0.5"/>
+          <rect x="5" y="6" width="2.5" height="6" rx="0.5"/>
+          <rect x="9" y="4" width="2.5" height="8" rx="0.5"/>
+          <rect x="13" y="1.5" width="2.5" height="10.5" rx="0.5"/>
+        </svg>
+        <!-- Wifi SVG -->
+        <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM2.8 5.3A8.8 8.8 0 019 3.5c2.3 0 4.5.8 6.2 2.3l-1.1 1.2A7.2 7.2 0 009 5.3c-1.8 0-3.6.7-4.9 1.9L2.8 6zM0 2.5a12.7 12.7 0 0118 0l-1.2 1.3a11 11 0 00-15.6 0L0 2.5z"/>
+        </svg>
+        <!-- Battery SVG -->
+        <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="17" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="3" y="3" width="11" height="6" rx="1"/>
+          <path d="M20 4.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Application Views Container -->
+    <div class="app-container">
+
+      <!-- ============================================ -->
+      <!-- VIEW 1: HOME SCREEN                          -->
+      <!-- ============================================ -->
+      <section id="view-home" class="view active">
+        <header class="app-header">
+          <h2>Delivery Detox</h2>
+          <button class="btn-icon" id="reset-stats-btn" title="초기화" aria-label="초기화">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+          </button>
+        </header>
+        <div class="content">
+          <!-- Main Hero Metrics Card -->
+          <div class="hero-card">
+            <div class="hero-label">오늘 아낀 배달비</div>
+            <div class="hero-val" id="home-saved-value">0원</div>
+            <div class="hero-substats">
+              <div class="hero-subitem">
+                <span class="hero-sublabel">오늘 참은 횟수</span>
+                <span class="hero-subval" id="home-count-value">0회</span>
+              </div>
+              <div class="hero-subitem">
+                <span class="hero-sublabel">건강 획득 포인트</span>
+                <span class="hero-subval" id="home-hp-value">0 HP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Grid Container -->
+          <div class="section-title">
+            <span>참을 음식 카테고리</span>
+            <span class="accent-text" onclick="showView('home')">모두보기</span>
+          </div>
+
+          <div class="category-grid">
+            <div class="category-card" data-category="chicken">
+              <div class="category-icon-wrapper">🍗</div>
+              <div class="category-name">치킨</div>
+            </div>
+            <div class="category-card" data-category="pizza">
+              <div class="category-icon-wrapper">🍕</div>
+              <div class="category-name">피자</div>
+            </div>
+            <div class="category-card" data-category="burger">
+              <div class="category-icon-wrapper">🍔</div>
+              <div class="category-name">햄버거</div>
+            </div>
+            <div class="category-card" data-category="chinese">
+              <div class="category-icon-wrapper">🍜</div>
+              <div class="category-name">중국집</div>
+            </div>
+            <div class="category-card" data-category="bunsik">
+              <div class="category-icon-wrapper">🍢</div>
+              <div class="category-name">분식</div>
+            </div>
+          </div>
+
+          <!-- Bottom Micro-Tip Card -->
+          <div class="info-card">
+            <div class="info-icon">💡</div>
+            <div class="info-text-wrapper">
+              <div class="info-title">치킨 한 번 참으면 무슨 일이 생길까요?</div>
+              <div class="info-desc">평균 20,000원을 절약하고, 유산소 운동 1.5시간 분량의 칼로리 섭취를 예방할 수 있습니다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 2: RESTAURANTS & MENU LIST SCREEN      -->
+      <!-- ============================================ -->
+      <section id="view-restaurants" class="view">
+        <header class="app-header">
+          <button class="btn-icon btn-back" aria-label="이전 화면으로 가기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <h2>음식점 선택</h2>
+          <div style="width: 36px;"></div> <!-- Center spacing helper -->
+        </header>
+        <div class="content" id="restaurants-container">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 3: MENU DETAIL SCREEN                   -->
+      <!-- ============================================ -->
+      <section id="view-menu-detail" class="view">
+        <header class="app-header">
+          <button class="btn-icon btn-back" aria-label="이전 화면으로 가기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <h2>메뉴 상세</h2>
+          <div style="width: 36px;"></div>
+        </header>
+        <div class="content">
+          <div class="detail-img-box" id="menu-detail-img">
+            🍔
+          </div>
+          <div class="detail-info">
+            <div class="detail-name" id="menu-detail-name">메뉴명</div>
+            <div class="detail-desc" id="menu-detail-desc">상세 설명이 나타나는 영역입니다.</div>
+            <div class="detail-price-row">
+              <span class="detail-price-label">가격</span>
+              <span class="detail-price" id="menu-detail-price">0원</span>
+            </div>
+          </div>
+
+          <!-- Quantity Control Row -->
+          <div class="qty-row">
+            <span class="qty-label">수량</span>
+            <div class="qty-control">
+              <button class="btn-qty" id="btn-detail-qty-minus">-</button>
+              <div class="qty-value" id="menu-detail-qty-value">1</div>
+              <button class="btn-qty" id="btn-detail-qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="floating-footer">
+          <button class="btn-primary" id="btn-add-to-cart">
+            장바구니 담기
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 4: SHOPPING CART SCREEN                 -->
+      <!-- ============================================ -->
+      <section id="view-cart" class="view">
+        <header class="app-header">
+          <button class="btn-icon btn-back" aria-label="이전 화면으로 가기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <h2>장바구니</h2>
+          <div style="width: 36px;"></div>
+        </header>
+        <div class="content" id="cart-container">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+        <div class="floating-footer">
+          <button class="btn-primary" id="btn-cart-checkout">
+            주문하기
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 5: FAKE PROGRESS / DETOX DELAY SCREEN   -->
+      <!-- ============================================ -->
+      <section id="view-progress" class="view">
+        <header class="app-header" style="justify-content: center;">
+          <h2>주문 처리 및 배달 확인 중</h2>
+        </header>
+        <div class="content">
+          <div class="progress-container">
+            <div class="progress-header">음식을 배달 중입니다 🛵</div>
+            <div class="progress-subheader">결제가 완료되지 않았습니다. 잠시만 대기해 주세요.</div>
+
+            <!-- Dynamic Scooter Graphic -->
+            <div class="animation-box">
+              <div class="road-line"></div>
+              <div class="delivery-scooter">🛵</div>
+              <div class="scooter-exhaust"></div>
+            </div>
+
+            <!-- Modern Linear Progress Bar -->
+            <div class="visual-progress-wrapper">
+              <div class="visual-progress-bar" id="visual-progress"></div>
+            </div>
+
+            <!-- ASCII Text Progress indicator (Requirement) -->
+            <div class="ascii-progress-box">
+              <div class="ascii-bar" id="ascii-progress-bar">░░░░░░░░░░</div>
+              <div class="ascii-percent" id="ascii-progress-percent">0%</div>
+            </div>
+
+            <!-- Steps timeline indicators -->
+            <div class="delivery-status-timeline">
+              <div class="timeline-step" id="step-order-accept">
+                <div class="step-icon"><span class="step-indicator">...</span></div>
+                <div class="step-desc">주문 접수</div>
+              </div>
+              <div class="timeline-step" id="step-cooking">
+                <div class="step-icon"><span class="step-indicator">...</span></div>
+                <div class="step-desc">조리 시작</div>
+              </div>
+              <div class="timeline-step" id="step-delivery-start">
+                <div class="step-icon"><span class="step-indicator">...</span></div>
+                <div class="step-desc">배달 출발</div>
+              </div>
+              <div class="timeline-step" id="step-soon-arrive">
+                <div class="step-icon"><span class="step-indicator">...</span></div>
+                <div class="step-desc">곧 도착</div>
+              </div>
+            </div>
+
+            <div class="info-card" style="border-left: 4px solid var(--primary); margin-bottom: 0;">
+              <div class="info-icon">🧠</div>
+              <div class="info-text-wrapper" style="text-align: left;">
+                <div class="info-title" style="color: var(--primary);">충동 억제 타이머 작동 중</div>
+                <div class="info-desc" style="font-size: 11px;">뇌 과학 연구에 따르면 배달 충동이 들 때 30초의 대기 시간을 가지는 것만으로도 충동 구매 의사의 80%가 감소합니다.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 6: RESULT / CONGRATULATIONS SCREEN     -->
+      <!-- ============================================ -->
+      <section id="view-result" class="view">
+        <header class="app-header" style="justify-content: center;">
+          <h2>절약 성공</h2>
+        </header>
+        <div class="content">
+          <div class="result-container">
+            <div class="success-badge">🎉</div>
+            <div class="result-title">축하합니다!</div>
+            <div class="result-subtitle">방금 배달 결제의 문턱에서 소중한 한걸음을 물러나, 충동을 멋지게 이겨내셨습니다.</div>
+
+            <!-- Motivational Message Quote -->
+            <div class="motivational-quote-box" id="result-quote">
+              "30초 전 당신은 18,000원을 쓰려고 했습니다. 지금은 그 돈을 지켰습니다."
+            </div>
+
+            <!-- Savings Statistics -->
+            <div class="savings-report">
+              <div class="report-item">
+                <div class="report-label">오늘 절약한 금액</div>
+                <div class="report-value money" id="result-saved-money">18,000원</div>
+              </div>
+              <div class="report-item">
+                <div class="report-label">건강 포인트</div>
+                <div class="report-value points" id="result-hp">+10 HP</div>
+              </div>
+            </div>
+
+            <button class="btn-primary" onclick="showView('home')" style="margin-top: 10px;">
+              홈으로 가기
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Navigation Footer Bar (Hidden in checkout/result views) -->
+      <nav class="bottom-nav">
+        <div class="nav-item active" data-action="home">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+          <span>홈</span>
+        </div>
+        <div class="nav-item" data-action="cart" style="position: relative;">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+          <div class="nav-cart-badge" style="display: none;">0</div>
+          <span>장바구니</span>
+        </div>
+      </nav>
+
+    </div>
+
+    <!-- iOS Simulated Bottom Bar Indicator -->
+    <div class="device-bottom-bar">
+      <div class="home-indicator"></div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Update simulated iOS status bar clock
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      hours = hours < 10 ? '0' + hours : hours;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      const timeStr = hours + ':' + minutes;
+      const clockEl = document.getElementById('status-bar-time');
+      if (clockEl) {
+        clockEl.textContent = timeStr;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 60000);
+  </script>
+</body>
+</html>
